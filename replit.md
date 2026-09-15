@@ -1,6 +1,6 @@
-# [Project name]
+# AI Meeting Copilot
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Meeting intelligence workspace for turning conversations into searchable knowledge and accountable follow-through.
 
 ## Run & Operate
 
@@ -10,6 +10,7 @@ _Replace the heading above with the project's name, and this line with one sente
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
 - Required env: `DATABASE_URL` — Postgres connection string
+- Web preview is served by `artifacts/ai-meeting-copilot: web`
 
 ## Stack
 
@@ -19,26 +20,34 @@ _Replace the heading above with the project's name, and this line with one sente
 - Validation: Zod (`zod/v4`), `drizzle-zod`
 - API codegen: Orval (from OpenAPI spec)
 - Build: esbuild (CJS bundle)
+- Frontend: React + Vite + Wouter + TanStack Query + Tailwind CSS
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/ai-meeting-copilot/src/App.tsx` — app shell, routes, and product UI
+- `artifacts/ai-meeting-copilot/src/index.css` — workspace visual tokens
+- `artifacts/api-server/src/routes/` — API handlers
+- `lib/api-spec/openapi.yaml` — API contract source of truth
+- `lib/db/src/schema/meetings.ts` — meeting intelligence tables
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Demo processing is database-backed and deterministic so the complete workflow works without paid AI APIs.
+- Frontend data access uses generated OpenAPI hooks instead of hand-written request types.
+- Calendar dates are normalized at the API boundary because the create form submits a local date-time.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Users can capture meetings, browse transcript-backed records, review decisions, manage follow-through, search meeting knowledge, and ask grounded questions with sources.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+The product should remain professional, focused, responsive, and free of unnecessary animation or visual noise.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Run OpenAPI codegen after changing `lib/api-spec/openapi.yaml`.
+- Artifact builds require workflow-provided `PORT` and `BASE_PATH` values when run from the shell.
 
 ## Pointers
 

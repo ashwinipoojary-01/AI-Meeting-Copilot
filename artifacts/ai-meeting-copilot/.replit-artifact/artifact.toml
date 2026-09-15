@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "AI Meeting Copilot"
+description = "A production-style meeting intelligence workspace for turning recorded conversations into searchable transcripts, decisions, action items, and grounded answers."
+version = "1.0.0"
+id = "artifacts/ai-meeting-copilot"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22506
+
+[services.development]
+run = "pnpm --filter @workspace/ai-meeting-copilot run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ai-meeting-copilot", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/ai-meeting-copilot/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22506"
+BASE_PATH = "/"

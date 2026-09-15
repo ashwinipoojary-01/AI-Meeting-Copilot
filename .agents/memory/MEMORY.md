@@ -1,0 +1,1 @@
+- [Generated client typings](generated-client-types.md) — Orval fetch helpers require `dom.iterable` in composite TypeScript libs.

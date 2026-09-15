@@ -1,0 +1,1981 @@
+# BUILD A REAL-TIME AI MEETING COPILOT
+
+You are a senior full-stack engineer, AI engineer, database architect, and UI/UX engineer.
+
+Build a complete, production-style SaaS application called:
+
+# AI Meeting Copilot
+
+Tagline:
+
+**"Turn every meeting into searchable knowledge and actionable work."**
+
+This is a serious portfolio project for a 4th-year Computer Science student.
+
+DO NOT build a simple CRUD application.
+
+The application must demonstrate:
+
+* Next.js
+* TypeScript
+* React
+* Supabase
+* PostgreSQL
+* pgvector
+* Authentication
+* Audio processing
+* Speech-to-text
+* Speaker diarization
+* LLM summarization
+* Action-item extraction
+* Semantic search
+* RAG
+* Real-time updates
+* Secure API architecture
+* Testing
+* Production-quality UI
+
+---
+
+# 1. IMPORTANT DEVELOPMENT RULE
+
+Do NOT attempt to build everything in one giant step.
+
+Build the project in phases.
+
+For each phase:
+
+1. Implement the functionality.
+2. Run the application.
+3. Test it.
+4. Fix errors.
+5. Verify the database.
+6. Verify the APIs.
+7. Verify the UI.
+8. Only then continue to the next phase.
+
+If something is broken, STOP and fix it before continuing.
+
+At the end of every phase, report:
+
+```text
+PHASE X COMPLETE
+
+Implemented:
+...
+
+Files changed:
+...
+
+Tests:
+...
+
+Result:
+PASS / FAIL
+
+Next phase:
+...
+```
+
+Do not claim something works unless you actually tested it.
+
+---
+
+# 2. TECHNOLOGY STACK
+
+Use:
+
+## Frontend
+
+* Next.js
+* TypeScript
+* React
+* Tailwind CSS
+* shadcn/ui
+* Lucide icons
+* Recharts where useful
+
+Use the Next.js App Router.
+
+## Backend
+
+Use Next.js Route Handlers/server-side functions.
+
+Keep business logic separated from UI components.
+
+Use:
+
+* TypeScript
+* Zod
+* Server-side API calls
+* Proper error handling
+
+## Database
+
+Use:
+
+* Supabase
+* PostgreSQL
+* pgvector
+
+## Authentication
+
+Use:
+
+* Supabase Auth
+
+## File storage
+
+Use:
+
+* Supabase Storage
+
+## AI
+
+Use:
+
+* OpenAI
+
+Use OpenAI for:
+
+* Meeting summaries
+* Action-item extraction
+* Decision extraction
+* Topic extraction
+* Question answering
+* Embeddings
+
+## Speech-to-text
+
+Prefer:
+
+**Deepgram**
+
+if available and practical.
+
+Otherwise implement:
+
+**Whisper**
+
+behind a provider abstraction.
+
+---
+
+# 3. PROVIDER ABSTRACTION
+
+Do not tightly couple the application to one AI provider.
+
+Create interfaces such as:
+
+```text
+TranscriptionProvider
+LLMProvider
+EmbeddingProvider
+```
+
+Possible implementations:
+
+```text
+DeepgramTranscriptionProvider
+WhisperTranscriptionProvider
+
+OpenAILLMProvider
+OpenAIEmbeddingProvider
+```
+
+This will allow providers to be changed later.
+
+---
+
+# 4. PRODUCT GOAL
+
+The user should be able to:
+
+```text
+Create Meeting
+      ↓
+Upload / Record Audio
+      ↓
+Transcribe Meeting
+      ↓
+Identify Speakers
+      ↓
+Generate AI Summary
+      ↓
+Extract Decisions
+      ↓
+Extract Action Items
+      ↓
+Generate Embeddings
+      ↓
+Store in pgvector
+      ↓
+Search Meeting History
+      ↓
+Ask AI Questions
+      ↓
+Receive Grounded Answer + Sources
+```
+
+---
+
+# 5. EXAMPLE USER SCENARIO
+
+A user has a meeting with Client X.
+
+During the meeting:
+
+> "We should finish the dashboard by Friday."
+
+Rahul says:
+
+> "I'll handle the frontend implementation."
+
+Sneha says:
+
+> "I'll test it after Rahul finishes."
+
+The AI should produce:
+
+### Summary
+
+The team discussed the Client X dashboard and agreed to complete the implementation by Friday.
+
+### Decisions
+
+* Dashboard deadline is Friday.
+* PostgreSQL will be used.
+
+### Action Items
+
+```text
+Rahul
+Implement dashboard frontend
+Due: Friday
+
+Sneha
+Test dashboard
+Due: Friday
+```
+
+Later the user asks:
+
+> What did we agree on with Client X?
+
+The AI should retrieve relevant meeting transcript chunks and answer using those sources.
+
+---
+
+# 6. APPLICATION PAGES
+
+Create these pages.
+
+## Public pages
+
+```text
+/
+ /login
+ /signup
+ /forgot-password
+```
+
+## Protected pages
+
+```text
+/dashboard
+/meetings
+/meetings/[id]
+/meetings/new
+/action-items
+/search
+/ask
+/settings
+```
+
+---
+
+# 7. LANDING PAGE
+
+Create a professional SaaS landing page.
+
+Hero:
+
+**AI Meeting Copilot**
+
+Subtitle:
+
+**Capture conversations. Extract decisions. Never lose what your team agreed on.**
+
+CTA buttons:
+
+```text
+Start Free
+View Demo
+```
+
+Sections:
+
+### Features
+
+* Live transcription
+* AI summaries
+* Action items
+* Semantic search
+* Ask your meetings
+* Meeting history
+
+### How it works
+
+```text
+Record
+ ↓
+Transcribe
+ ↓
+Understand
+ ↓
+Search
+ ↓
+Ask
+```
+
+Keep the landing page professional, not overly animated.
+
+---
+
+# 8. AUTHENTICATION
+
+Implement Supabase authentication.
+
+Features:
+
+* Sign up
+* Login
+* Logout
+* Forgot password
+* Protected routes
+* Session persistence
+* User profile
+
+Users must only access their own meetings.
+
+Do not rely only on frontend checks.
+
+Use database Row Level Security.
+
+---
+
+# 9. DASHBOARD
+
+Create a modern SaaS dashboard.
+
+Show:
+
+```text
+Total Meetings
+24
+
+Action Items
+18
+
+Pending
+7
+
+Completed
+11
+```
+
+Also show:
+
+* Recent meetings
+* Pending action items
+* Upcoming deadlines
+* Recent decisions
+* Meeting activity chart
+
+Example:
+
+```text
+Good morning 👋
+
+Your Meeting Intelligence
+
+24 Meetings
+18 Action Items
+7 Pending
+11 Completed
+
+Recent Meetings
+----------------------------
+Client X Product Discussion
+Today · 42 min
+
+Sprint Planning
+Yesterday · 35 min
+
+Project Review
+Sep 12 · 51 min
+```
+
+---
+
+# 10. MEETING CREATION
+
+Create meeting form.
+
+Fields:
+
+```text
+Meeting title
+Meeting type
+Client/company
+Date
+Participants
+Description
+```
+
+Meeting types:
+
+```text
+Client Call
+Team Meeting
+Sprint Planning
+Project Review
+Interview
+1:1
+Other
+```
+
+After creation, navigate to the meeting page.
+
+---
+
+# 11. AUDIO UPLOAD
+
+Allow users to upload audio.
+
+Support common formats:
+
+```text
+MP3
+WAV
+M4A
+WEBM
+```
+
+Validate:
+
+* File type
+* File size
+
+Upload audio to a private Supabase Storage bucket.
+
+Do not expose service-role credentials to the browser.
+
+Show:
+
+```text
+Uploading...
+████████░░ 80%
+```
+
+After upload:
+
+```text
+Audio uploaded successfully
+Process meeting
+```
+
+---
+
+# 12. AUDIO RECORDING
+
+Also provide browser recording.
+
+UI:
+
+```text
+🎙 Start Recording
+
+00:00:00
+```
+
+Controls:
+
+```text
+Start
+Pause
+Resume
+Stop
+```
+
+Use browser MediaRecorder where supported.
+
+Do not fake audio recording.
+
+Handle browser permission errors gracefully.
+
+---
+
+# 13. TRANSCRIPTION
+
+Implement the transcription pipeline.
+
+```text
+Audio
+ ↓
+Storage
+ ↓
+Deepgram / Whisper
+ ↓
+Transcript segments
+ ↓
+Database
+```
+
+Store:
+
+```text
+speaker
+text
+start_time
+end_time
+confidence
+```
+
+Example:
+
+```text
+00:02:13
+
+Speaker 1:
+We should finish the dashboard by Friday.
+
+00:02:21
+
+Speaker 2:
+I'll handle the frontend implementation.
+```
+
+---
+
+# 14. SPEAKER DIARIZATION
+
+If the selected transcription provider supports diarization, use it.
+
+Display:
+
+```text
+Speaker 1
+Speaker 2
+Speaker 3
+```
+
+Allow users to rename speakers.
+
+Example:
+
+```text
+Speaker 1 → Rahul
+Speaker 2 → Sneha
+Speaker 3 → Client
+```
+
+Store the mapping in the database.
+
+---
+
+# 15. TRANSCRIPT UI
+
+Create a professional transcript viewer.
+
+Requirements:
+
+* Speaker names
+* Timestamp
+* Transcript text
+* Search within transcript
+* Current sentence highlighting
+* Click transcript segment → audio seeks to timestamp
+
+Example:
+
+```text
+00:12:31
+
+Rahul
+
+We will deploy the new version tomorrow.
+```
+
+Clicking the transcript should seek the audio player to 12:31.
+
+---
+
+# 16. SYNCHRONIZED AUDIO PLAYER
+
+Create:
+
+```text
+▶ 12:31 ━━━━━━━━━━━ 42:10
+```
+
+Features:
+
+* Play
+* Pause
+* Seek
+* Current time
+* Duration
+* Volume
+* Playback speed
+
+When audio is playing, highlight the corresponding transcript segment.
+
+---
+
+# 17. MEETING PROCESSING STATUS
+
+Create processing states:
+
+```text
+UPLOADING
+PROCESSING
+TRANSCRIBING
+ANALYZING
+INDEXING
+COMPLETED
+FAILED
+```
+
+Display progress:
+
+```text
+Upload          ✓
+Transcription  ✓
+AI Analysis    ●
+Indexing       ○
+Completed      ○
+```
+
+Do not fake progress.
+
+The status should represent actual processing.
+
+---
+
+# 18. AI ANALYSIS
+
+After transcription, call OpenAI.
+
+Extract:
+
+## Summary
+
+Short useful summary.
+
+## Key Topics
+
+Important discussion topics.
+
+## Decisions
+
+Only actual decisions.
+
+## Action Items
+
+Extract:
+
+```text
+Task
+Owner
+Deadline
+Priority
+Confidence
+```
+
+## Risks
+
+Potential problems/blockers.
+
+## Follow-ups
+
+Things that need to happen later.
+
+## Open Questions
+
+Questions that remain unanswered.
+
+Do not treat every sentence as an action item.
+
+Distinguish:
+
+```text
+Suggestion
+Discussion
+Decision
+Commitment
+```
+
+---
+
+# 19. STRUCTURED AI OUTPUT
+
+Use structured JSON output.
+
+Example:
+
+```json
+{
+  "summary": "...",
+  "topics": [],
+  "decisions": [],
+  "action_items": [
+    {
+      "task": "...",
+      "owner": "...",
+      "deadline": "...",
+      "priority": "HIGH",
+      "confidence": 0.91
+    }
+  ],
+  "risks": [],
+  "open_questions": []
+}
+```
+
+Validate AI output using Zod before saving it.
+
+If the response is invalid:
+
+* Retry safely if appropriate.
+* Otherwise mark analysis as failed.
+* Do not store malformed data.
+
+---
+
+# 20. ACTION ITEMS
+
+Create a dedicated action-items page.
+
+Users can:
+
+* View
+* Edit
+* Complete
+* Delete
+* Change owner
+* Change deadline
+* Change priority
+
+Filters:
+
+```text
+All
+Pending
+Completed
+Overdue
+```
+
+Sort:
+
+```text
+Deadline
+Priority
+Meeting
+```
+
+---
+
+# 21. DECISIONS
+
+Create a decisions section on every meeting.
+
+Example:
+
+```text
+DECISIONS
+
+✓ PostgreSQL selected for the dashboard
+
+✓ Dashboard deadline is Friday
+
+✓ Sneha will handle testing
+```
+
+Each decision should store its transcript timestamp.
+
+Clicking a decision should jump to the relevant transcript location.
+
+---
+
+# 22. MEETING LIBRARY
+
+Create `/meetings`.
+
+Display all meetings.
+
+Each meeting should show:
+
+```text
+Title
+Date
+Duration
+Participants
+Meeting type
+Processing status
+Action item count
+Decision count
+```
+
+Allow:
+
+* Search
+* Filtering
+* Sorting
+
+---
+
+# 23. KEYWORD SEARCH
+
+Implement normal search.
+
+Search:
+
+```text
+PostgreSQL
+dashboard
+Rahul
+deployment
+```
+
+Use PostgreSQL full-text search where appropriate.
+
+Do not rely only on JavaScript filtering.
+
+---
+
+# 24. SEMANTIC SEARCH
+
+This is one of the most important features.
+
+Use:
+
+**OpenAI embeddings + pgvector**
+
+Pipeline:
+
+```text
+Transcript
+ ↓
+Chunking
+ ↓
+Embedding
+ ↓
+pgvector
+```
+
+Each embedding record should contain:
+
+```text
+meeting_id
+transcript_segment_id
+content
+embedding
+speaker
+timestamp
+metadata
+```
+
+Do not hardcode a wrong vector dimension.
+
+Determine the dimension from the selected embedding model and configure the database accordingly.
+
+---
+
+# 25. SEARCH EXAMPLE
+
+User asks:
+
+> Which database did we select for the dashboard?
+
+Transcript says:
+
+> We decided to use PostgreSQL.
+
+The search must understand that these are semantically related even if exact words differ.
+
+Use cosine similarity or another appropriate pgvector distance strategy.
+
+Create appropriate indexes once the data size/design supports them.
+
+---
+
+# 26. ASK YOUR MEETINGS
+
+Create `/ask`.
+
+UI:
+
+```text
+Ask anything about your meetings...
+
+[ What did we agree on with Client X? ]
+```
+
+Example questions:
+
+```text
+What did we agree on with Client X?
+
+Who was responsible for the API changes?
+
+When did we discuss PostgreSQL?
+
+What deadline did Rahul commit to?
+
+What problems were raised about the dashboard?
+```
+
+---
+
+# 27. RAG PIPELINE
+
+Implement:
+
+```text
+User Question
+      ↓
+Question Embedding
+      ↓
+pgvector Search
+      ↓
+Retrieve Relevant Transcript Chunks
+      ↓
+Build Context
+      ↓
+OpenAI
+      ↓
+Grounded Answer
+      ↓
+Sources
+```
+
+The AI must answer only from retrieved meeting information.
+
+If sufficient evidence is not found:
+
+```text
+I couldn't find enough information in your meetings to answer this.
+```
+
+Do not hallucinate.
+
+---
+
+# 28. ANSWER SOURCES
+
+Every RAG answer should display sources.
+
+Example:
+
+```text
+ANSWER
+
+The team decided to use PostgreSQL for the dashboard.
+
+SOURCES
+
+Client X Product Discussion
+September 15
+
+00:32:14
+
+"We decided to use PostgreSQL..."
+```
+
+Clicking the source should:
+
+1. Open the meeting.
+2. Jump to the transcript timestamp.
+
+This is required.
+
+---
+
+# 29. AI CHAT HISTORY
+
+Save AI questions and answers.
+
+Table:
+
+```text
+ai_conversations
+```
+
+Store:
+
+```text
+user_id
+question
+answer
+created_at
+```
+
+Store source references separately.
+
+---
+
+# 30. DATABASE DESIGN
+
+Create proper Supabase migrations.
+
+Tables should include at minimum:
+
+### profiles
+
+```text
+id
+email
+name
+avatar_url
+created_at
+```
+
+### meetings
+
+```text
+id
+user_id
+title
+meeting_type
+client_name
+description
+started_at
+ended_at
+duration
+audio_path
+status
+created_at
+```
+
+### participants
+
+```text
+id
+meeting_id
+name
+email
+speaker_label
+created_at
+```
+
+### transcript_segments
+
+```text
+id
+meeting_id
+speaker_id
+text
+start_time
+end_time
+confidence
+created_at
+```
+
+### speaker_mappings
+
+```text
+id
+meeting_id
+speaker_label
+participant_name
+created_at
+```
+
+### action_items
+
+```text
+id
+meeting_id
+title
+description
+owner
+deadline
+priority
+status
+confidence
+created_at
+```
+
+### decisions
+
+```text
+id
+meeting_id
+decision
+context
+timestamp
+created_at
+```
+
+### meeting_topics
+
+```text
+id
+meeting_id
+topic
+created_at
+```
+
+### meeting_embeddings
+
+```text
+id
+meeting_id
+transcript_segment_id
+content
+embedding
+metadata
+created_at
+```
+
+### ai_conversations
+
+```text
+id
+user_id
+question
+answer
+created_at
+```
+
+### ai_sources
+
+```text
+id
+conversation_id
+meeting_id
+transcript_segment_id
+similarity_score
+created_at
+```
+
+Use foreign keys.
+
+Use indexes where appropriate.
+
+---
+
+# 31. ROW LEVEL SECURITY
+
+Implement Supabase RLS.
+
+Users must not be able to access another user's:
+
+* Meetings
+* Transcripts
+* Audio
+* Action items
+* Decisions
+* Embeddings
+* AI conversations
+
+Test unauthorized access.
+
+---
+
+# 32. SUPABASE STORAGE SECURITY
+
+Create a private bucket for meeting audio.
+
+Never make all meeting recordings public.
+
+Use authenticated access or signed URLs.
+
+---
+
+# 33. SECURITY
+
+Never expose:
+
+```text
+OPENAI_API_KEY
+DEEPGRAM_API_KEY
+SUPABASE_SERVICE_ROLE_KEY
+```
+
+to frontend JavaScript.
+
+Use server-side environment variables.
+
+Create:
+
+```text
+.env.example
+```
+
+Never commit:
+
+```text
+.env
+```
+
+Add it to `.gitignore`.
+
+Validate:
+
+* Authentication
+* Authorization
+* Uploaded files
+* Request bodies
+* API inputs
+
+---
+
+# 34. ENVIRONMENT VARIABLES
+
+Create an `.env.example` similar to:
+
+```text
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+
+SUPABASE_SERVICE_ROLE_KEY=
+
+OPENAI_API_KEY=
+
+DEEPGRAM_API_KEY=
+```
+
+Only include variables actually used.
+
+Do not insert fake production credentials.
+
+---
+
+# 35. API ROUTES
+
+Create clean server-side APIs.
+
+Examples:
+
+```text
+POST /api/meetings
+GET /api/meetings
+GET /api/meetings/[id]
+DELETE /api/meetings/[id]
+
+POST /api/meetings/[id]/upload
+POST /api/meetings/[id]/process
+
+GET /api/meetings/[id]/transcript
+
+GET /api/meetings/[id]/action-items
+
+PATCH /api/action-items/[id]
+
+POST /api/search
+
+POST /api/ask
+
+GET /api/dashboard
+```
+
+Use proper status codes.
+
+Use Zod validation.
+
+Use consistent error responses.
+
+---
+
+# 36. ERROR HANDLING
+
+Handle:
+
+* Invalid audio
+* Large files
+* Unsupported formats
+* Authentication failure
+* Authorization failure
+* Transcription failure
+* OpenAI failure
+* Embedding failure
+* Database failure
+* Network failure
+* API rate limits
+
+Show friendly UI messages.
+
+Never expose internal stack traces or secrets.
+
+---
+
+# 37. REAL-TIME TRANSCRIPTION
+
+After normal upload/transcription works, implement live transcription if the selected provider supports streaming.
+
+Flow:
+
+```text
+Microphone
+ ↓
+Audio Stream
+ ↓
+Speech-to-text API
+ ↓
+Partial Transcript
+ ↓
+Browser UI
+ ↓
+Final Transcript
+```
+
+Display partial results separately from finalized results.
+
+Do NOT fake live transcription.
+
+If the provider/API configuration cannot support browser-safe live streaming, implement a clean fallback to recorded-audio transcription instead of pretending it is live.
+
+---
+
+# 38. REAL-TIME STATUS
+
+Use Supabase Realtime or an appropriate mechanism for meeting-processing status where practical.
+
+The UI should update when processing state changes.
+
+For example:
+
+```text
+Transcribing...
+```
+
+changes automatically to:
+
+```text
+Analyzing...
+```
+
+and finally:
+
+```text
+Completed
+```
+
+Do not require a manual page refresh if a realtime mechanism is available.
+
+---
+
+# 39. DEMO MODE
+
+Create a demo meeting.
+
+Name:
+
+**Client X Product Discussion**
+
+Participants:
+
+```text
+Rahul
+Sneha
+Client
+```
+
+Include realistic sample:
+
+* Transcript
+* Decisions
+* Action items
+* Topics
+* Timestamps
+
+The demo must work without requiring paid AI APIs.
+
+Clearly label demo/sample data.
+
+Do not use fake AI results when real APIs are configured.
+
+---
+
+# 40. FREE-DEVELOPMENT FRIENDLY DESIGN
+
+The application should be designed so that development can happen with minimal API usage.
+
+Implement a development/demo mode controlled by environment configuration.
+
+For example:
+
+```text
+AI_DEMO_MODE=true
+```
+
+When enabled:
+
+* Use seeded transcript data.
+* Use deterministic demo analysis.
+* Use demo embeddings if necessary.
+* Do not repeatedly call expensive external APIs during UI development.
+
+When:
+
+```text
+AI_DEMO_MODE=false
+```
+
+use the real:
+
+* OpenAI
+* Deepgram/Whisper
+* Embeddings
+* pgvector
+  pipeline.
+
+Never mix demo data with production data accidentally.
+
+---
+
+# 41. UI DESIGN
+
+The UI should look like a real modern SaaS product.
+
+Design style:
+
+* Professional
+* Minimal
+* Clean
+* Modern
+* Productivity-focused
+* Responsive
+
+Use a sidebar:
+
+```text
+AI Meeting Copilot
+
+Dashboard
+Meetings
+Action Items
+Search
+Ask AI
+
+----------------
+
+Settings
+```
+
+Use:
+
+* Cards
+* Tables
+* Tabs
+* Dialogs
+* Toasts
+* Skeleton loaders
+* Empty states
+* Error states
+* Progress indicators
+
+Avoid excessive gradients and unnecessary animations.
+
+---
+
+# 42. RESPONSIVENESS
+
+The application must work on:
+
+* Desktop
+* Tablet
+* Mobile
+
+The meeting transcript should remain usable on smaller screens.
+
+---
+
+# 43. ACCESSIBILITY
+
+Use:
+
+* Semantic HTML
+* Keyboard navigation
+* Accessible buttons
+* Proper labels
+* ARIA attributes where needed
+* Sufficient contrast
+
+Do not make controls accessible only through mouse clicks.
+
+---
+
+# 44. PROJECT STRUCTURE
+
+Use a clean structure similar to:
+
+```text
+ai-meeting-copilot/
+
+app/
+  (auth)/
+  dashboard/
+  meetings/
+  meetings/[id]/
+  meetings/new/
+  action-items/
+  search/
+  ask/
+  settings/
+  api/
+
+components/
+  ui/
+  dashboard/
+  meetings/
+  transcript/
+  action-items/
+  ai/
+
+lib/
+  supabase/
+  ai/
+  transcription/
+  embeddings/
+  search/
+  validation/
+
+types/
+
+supabase/
+  migrations/
+  seed/
+
+tests/
+
+public/
+
+.env.example
+README.md
+```
+
+Use your judgment where Next.js conventions require a different structure.
+
+---
+
+# 45. TESTING
+
+Add proper automated testing.
+
+## Unit tests
+
+Test:
+
+* AI response validation
+* Action-item extraction logic
+* Search helpers
+* Permission checks
+* Utility functions
+
+## Integration tests
+
+Test:
+
+* Meeting creation
+* Meeting retrieval
+* Transcript storage
+* Action-item creation
+* Semantic search
+* Ask AI pipeline
+
+## E2E
+
+Test:
+
+```text
+Login
+ ↓
+Create meeting
+ ↓
+Upload audio/demo data
+ ↓
+Process
+ ↓
+View transcript
+ ↓
+View summary
+ ↓
+View action items
+ ↓
+Search
+ ↓
+Ask AI
+ ↓
+Open source
+```
+
+External APIs should be mocked where appropriate so tests do not consume API credits.
+
+---
+
+# 46. PERFORMANCE
+
+Avoid unnecessary:
+
+* API calls
+* database queries
+* React re-renders
+* embedding generation
+* LLM calls
+
+Do not generate embeddings repeatedly for unchanged transcript segments.
+
+Do not call AI APIs from client-side components.
+
+---
+
+# 47. AUDITABILITY
+
+When useful, log processing events such as:
+
+```text
+Meeting created
+Audio uploaded
+Transcription started
+Transcription completed
+AI analysis started
+AI analysis completed
+Embeddings generated
+```
+
+Keep logs useful without storing unnecessary sensitive information.
+
+---
+
+# 48. FUTURE EXTENSIBILITY
+
+Design the code so these can be added later:
+
+```text
+Google Calendar
+Zoom
+Google Meet
+Microsoft Teams
+Slack
+Email notifications
+Team workspaces
+Redis
+BullMQ
+Background workers
+Webhooks
+Advanced hybrid search
+Reranking
+Calendar reminders
+```
+
+Do NOT implement all of these now.
+
+Keep the first version maintainable.
+
+---
+
+# 49. PRODUCTION ARCHITECTURE
+
+Target architecture:
+
+```text
+                  ┌───────────────────┐
+                  │     Next.js       │
+                  │ Frontend + APIs   │
+                  └─────────┬─────────┘
+                            │
+             ┌──────────────┼──────────────┐
+             │              │              │
+             ▼              ▼              ▼
+       Supabase Auth   Supabase DB    Supabase Storage
+                            │
+                            ▼
+                         pgvector
+                            │
+              ┌─────────────┴─────────────┐
+              ▼                           ▼
+          OpenAI                      Deepgram
+          LLM                         Speech-to-text
+```
+
+Keep external API credentials server-side.
+
+---
+
+# 50. README
+
+Create a professional README.
+
+Include:
+
+## Project Overview
+
+## Problem Statement
+
+## Features
+
+## Architecture
+
+## Tech Stack
+
+## Database Schema
+
+## AI Pipeline
+
+## RAG Pipeline
+
+## Local Setup
+
+## Environment Variables
+
+## Running the Project
+
+## Testing
+
+## Demo Mode
+
+## Deployment
+
+## Future Improvements
+
+## Screenshots
+
+Add Mermaid diagrams where useful.
+
+---
+
+# 51. GIT
+
+Initialize Git if necessary.
+
+Create a useful `.gitignore`.
+
+Make logical commits during development.
+
+Suggested commits:
+
+```text
+feat: initialize nextjs project
+feat: add supabase authentication
+feat: add meeting management
+feat: add audio upload
+feat: add transcription pipeline
+feat: add ai meeting analysis
+feat: add action items
+feat: add semantic search
+feat: add rag assistant
+feat: add dashboard analytics
+test: add integration tests
+chore: production cleanup
+```
+
+Do not commit secrets.
+
+---
+
+# 52. PHASE PLAN
+
+Build exactly in this general order.
+
+## PHASE 1
+
+Project setup.
+
+Verify:
+
+```text
+npm install
+npm run dev
+```
+
+---
+
+## PHASE 2
+
+Supabase setup.
+
+Implement:
+
+* Database
+* Migrations
+* RLS
+* Auth
+* Protected routes
+
+Test authentication.
+
+---
+
+## PHASE 3
+
+Meeting CRUD.
+
+Implement:
+
+* Create
+* List
+* Details
+* Delete
+* Search/filter
+
+---
+
+## PHASE 4
+
+Audio upload and recording.
+
+Test actual audio files.
+
+---
+
+## PHASE 5
+
+Transcription.
+
+Integrate Deepgram or Whisper.
+
+Test with real audio.
+
+---
+
+## PHASE 6
+
+Speaker diarization.
+
+Test speaker mapping.
+
+---
+
+## PHASE 7
+
+AI analysis.
+
+Implement:
+
+* Summary
+* Topics
+* Decisions
+* Action items
+* Risks
+* Questions
+
+---
+
+## PHASE 8
+
+Action-item management.
+
+---
+
+## PHASE 9
+
+Embeddings + pgvector.
+
+---
+
+## PHASE 10
+
+Semantic search.
+
+---
+
+## PHASE 11
+
+Ask Your Meetings / RAG.
+
+Include sources and timestamps.
+
+---
+
+## PHASE 12
+
+Real-time transcription.
+
+Only after the previous pipeline works.
+
+---
+
+## PHASE 13
+
+Dashboard analytics.
+
+---
+
+## PHASE 14
+
+Testing + security audit.
+
+---
+
+## PHASE 15
+
+UI polish + responsive design.
+
+---
+
+## PHASE 16
+
+Production deployment preparation.
+
+---
+
+# 53. CRITICAL RULES
+
+Follow these throughout development:
+
+### NEVER
+
+* Hardcode API keys.
+* Expose secrets to the browser.
+* Fake real-time transcription.
+* Fake AI results when real mode is enabled.
+* Claim tests passed when they were not run.
+* Skip database security.
+* Skip authorization.
+* Hallucinate meeting information.
+* Use vector search without actually storing vectors.
+* Use semantic search as a simple keyword search.
+* Delete existing project files unnecessarily.
+* Install unnecessary dependencies.
+* Over-engineer the first version.
+
+### ALWAYS
+
+* Use TypeScript.
+* Validate input.
+* Validate AI output.
+* Use RLS.
+* Handle errors.
+* Add loading states.
+* Add empty states.
+* Add responsive UI.
+* Keep API keys server-side.
+* Test every phase.
+* Keep architecture modular.
+* Keep demo mode available.
+* Show sources for RAG answers.
+
+---
+
+# 54. START NOW
+
+First:
+
+1. Inspect the current Replit workspace.
+2. Check existing files.
+3. Check installed dependencies.
+4. Check environment configuration.
+5. Do not delete existing work.
+6. Create the implementation plan.
+7. Start ONLY with Phase 1.
+8. Verify Phase 1 works.
+9. Then proceed to Phase 2.
+
+Do not jump directly to Phase 10 or Phase 16.
+
+Build the application incrementally and make sure every major feature actually works.
+
+The final result must be a **real working AI Meeting Copilot**, not a static UI mockup.
