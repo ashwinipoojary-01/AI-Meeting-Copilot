@@ -49,7 +49,7 @@ pnpm --filter @workspace/ai-meeting-copilot run typecheck
 PORT=22506 BASE_PATH=/ pnpm --filter @workspace/ai-meeting-copilot run build
 ```
 
-## Data model
+## Data model.
 
 The development database includes `meetings`, `transcript_segments`, `decisions`, and `action_items`. The seeded `Client X Product Discussion` meeting demonstrates the complete knowledge flow without requiring paid AI APIs.
 
