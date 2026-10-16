@@ -53,6 +53,6 @@ PORT=22506 BASE_PATH=/ pnpm --filter @workspace/ai-meeting-copilot run build
 
 The development database includes `meetings`, `transcript_segments`, `decisions`, and `action_items`. The seeded `Client X Product Discussion` meeting demonstrates the complete knowledge flow without requiring paid AI APIs.
 
-## Next phases
+## Next phases.
 
 The next implementation phases can add authenticated workspaces, private audio storage, transcription-provider adapters, structured LLM analysis, embeddings with pgvector, Supabase Realtime status updates, and an integration test suite. Demo processing is intentionally isolated so those providers can be added without changing the UI contract.
