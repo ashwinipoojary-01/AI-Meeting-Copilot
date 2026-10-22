@@ -16,7 +16,7 @@ AI Meeting Copilot is a portfolio-grade meeting intelligence workspace. It keeps
 - Grounded Ask Copilot answers with meeting, speaker, and timestamp sources
 - Responsive UI with loading, error, and empty states
 
-## Architecture.
+## Architecture..
 
 ```mermaid
 flowchart LR
