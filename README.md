@@ -4,7 +4,7 @@ Turn every meeting into searchable knowledge and actionable work.
 
 AI Meeting Copilot is a portfolio-grade meeting intelligence workspace. It keeps meeting records, transcripts, decisions, and follow-through in one searchable place, then answers questions using transcript-backed sources.
 
-## Current product slice.
+## Current product slice..
 
 - Workspace overview with activity, meeting counts, deadlines, and decisions
 - Meeting library with search and status filtering
