@@ -1,4 +1,4 @@
-# AI Meeting Copilot.
+# AI Meeting Copilot..
 
 Turn every meeting into searchable knowledge and actionable work.
 
