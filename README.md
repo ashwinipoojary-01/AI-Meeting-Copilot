@@ -28,7 +28,7 @@ flowchart LR
 
 The shared OpenAPI contract in `lib/api-spec/openapi.yaml` generates typed React Query hooks and Zod schemas. The frontend never calls the database directly.
 
-## Running locally.
+# Running locally.
 
 ```bash
 pnpm install
